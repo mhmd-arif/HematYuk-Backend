@@ -4,7 +4,8 @@
   "description": "Repo HematYuk Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/mhmd-arif/HematYuk-Backend/issues"
   },
-  "homepage": "https://github.com/mhmd-arif/HematYuk-Backend#readme"
+  "homepage": "https://github.com/mhmd-arif/HematYuk-Backend#readme",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
