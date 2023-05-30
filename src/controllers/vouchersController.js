@@ -17,7 +17,7 @@ export const findAll = async (req, res, next) => {
 
 export const findById = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = new mongoose.Types.ObjectId(req.params.id);
     const voucher = await Voucher.findById({ _id: id }).exec();
     if (!voucher) throw httpNotFound();
     res.json(successResponseBuilder({ voucher: voucher }));
@@ -41,7 +41,7 @@ export const create = async (req, res, next) => {
 
 export const updateById = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = new mongoose.Types.ObjectId(req.params.id);
     const voucher = await Voucher.findOneAndUpdate({ _id: id }, req.body);
     if (!voucher) throw httpNotFound();
 
@@ -53,7 +53,7 @@ export const updateById = async (req, res, next) => {
 
 export const deleteById = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = new mongoose.Types.ObjectId(req.params.id);
 
     const voucher = await Voucher.findOneAndDelete({ _id: id });
     if (!voucher) throw httpNotFound();
