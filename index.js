@@ -1,33 +1,41 @@
-require('dotenv').config()
+import process from 'process';
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
-const express = require('express')
-const mongoose = require('mongoose')
+import getenv from './src/helpers/getenv.js';
+import errorHandler from './src/middlewares/errorHandler.js';
 
-const userRoutes = require('./src/routes/user')
+import vouchersRouter from "./src/routes/vouchersRoute.js"
 
-const app = express()
+const app = express();
 
-// middleware
-app.use(express.json())
+const PORT = process.env.PORT;
+const MONGO_URI = getenv('MONGO_URI');
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method)
-  next()
-})
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log('Connected to mongodb'))
+  .catch((err) => {
+    console.error(`Can't connect to mongodb`);
+    console.error(err);
+    process.exit(1);
+  });
 
-// routes
-app.use('/api/user', userRoutes)
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-// connect db
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log('connected to database')
-  // listen to port
-  app.listen(process.env.PORT, () => {
-    console.log('listening for requests on port', process.env.PORT)
-  })
-})
-.catch((err) => {
-  console.log(err)
-}) 
+app.get('/', (req, res) => {
+  res.send('halo');
+});
 
+// app.use('/auth', authRouter);
+app.use('/vouchers', vouchersRouter);
+// app.use('/borrows', borrowsRouter);
+// app.use('/users', usersRouter);
+
+app.use(errorHandler);
+
+// app.listen(PORT, () => console.info(`Server running on `));
