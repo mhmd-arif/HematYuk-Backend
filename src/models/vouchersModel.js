@@ -26,6 +26,10 @@ const voucherSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
+    voucherCode: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

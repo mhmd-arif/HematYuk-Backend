@@ -63,3 +63,15 @@ export const deleteById = async (req, res, next) => {
     next(err);
   }
 };
+
+export const applyVoucher = async (req, res, next) => {
+  try {
+    const { voucherCode } = req.params
+    const voucher = await Voucher.find({voucherCode:[voucherCode]})
+    if (Array.isArray(voucher) && voucher.length === 0) {
+    return res.status(404).json({error: 'voucher not found'})}
+    res.json(successResponseBuilder({ voucher: voucher }));
+  } catch (err) {
+    next(err);
+  }
+};

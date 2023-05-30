@@ -10,6 +10,9 @@ router.get('/', controller.findAll);
 // Get specific book by id
 router.get('/:id', controller.findById);
 
+// apply voucher
+router.get('/apply/:voucherCode', controller.applyVoucher);
+
 // Create new book
 // router.post('/', 
 // auth.authenticate, 
