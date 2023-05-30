@@ -6,6 +6,10 @@ const voucherSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    companyName: {
+      type: String,
+      required: true,
+    },
     type: {
       type: String,
       required: true,
@@ -18,10 +22,14 @@ const voucherSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
+    quantity: {
+      type: Number,
+      required: false,
+    },
   },
   { timestamps: true }
 );
 
-const Voucher = mongoose.model('User', voucherSchema);
+const Voucher = mongoose.model('Voucher', voucherSchema);
 
 export default Voucher;

@@ -38,4 +38,4 @@ app.use('/vouchers', vouchersRouter);
 
 app.use(errorHandler);
 
-// app.listen(PORT, () => console.info(`Server running on `));
+app.listen(PORT, () => console.info(`Server running on `));
