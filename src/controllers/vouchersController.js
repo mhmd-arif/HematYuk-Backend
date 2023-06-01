@@ -28,6 +28,8 @@ export const findById = async (req, res, next) => {
 
 export const create = async (req, res, next) => {
   try {
+    const isVoucherExist = await Voucher.findOne({ voucherCode: req.body.voucherCode });
+    if (isVoucherExist) throw httpNotFound('Voucher already exist');
     const voucher = new Voucher(req.body);
     const result = await voucher.save();
     res.status(201).json(successResponseBuilder({ voucher: result }));
