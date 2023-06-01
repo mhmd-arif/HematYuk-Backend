@@ -7,6 +7,7 @@ import getenv from './src/helpers/getenv.js';
 import errorHandler from './src/middlewares/errorHandler.js';
 
 import vouchersRouter from "./src/routes/vouchersRoute.js"
+import transactionsRouter from "./src/routes/transactionsRoute.js"
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 
 // app.use('/auth', authRouter);
 app.use('/vouchers', vouchersRouter);
+app.use('/transactions', transactionsRouter);
 // app.use('/borrows', borrowsRouter);
 // app.use('/users', usersRouter);
 
