@@ -63,6 +63,14 @@ export const create = async (req, res, next) => {
       }
     );
 
+    const pointTransaction = Math.round(req.body.transactionValue/1000)
+    await User.updateOne(
+      { _id: user._id },
+      {
+        point: user.point + pointTransaction,
+      }
+    );
+
     // Add borrow
     const transaction = new Transaction({
       voucherCode: req.body.voucherCode,
