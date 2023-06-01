@@ -26,11 +26,24 @@ export const findById = async (req, res, next) => {
   }
 };
 
+// export const create = async (req, res, next) => {
+//   try {
+//     const Transaction = new Transaction(req.body);
+//     const result = await Transaction.save();
+//     res.status(201).json(successResponseBuilder({ Transaction: result }));
+//   } catch (err) {
+//     if (['CastError', 'ValidationError'].includes(err?.name)) {
+//       next(httpBadRequest(err.message));
+//     }
+//     next(err);
+//   }
+// };
+
 export const create = async (req, res, next) => {
   try {
-    const Transaction = new Transaction(req.body);
-    const result = await Transaction.save();
-    res.status(201).json(successResponseBuilder({ Transaction: result }));
+    const transaction = new Transaction(req.body);
+    const result = await transaction.save();
+    res.status(201).json(successResponseBuilder({ transaction: result }));
   } catch (err) {
     if (['CastError', 'ValidationError'].includes(err?.name)) {
       next(httpBadRequest(err.message));
