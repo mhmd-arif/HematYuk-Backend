@@ -6,7 +6,8 @@ import mongoose from 'mongoose';
 import getenv from './src/helpers/getenv.js';
 import errorHandler from './src/middlewares/errorHandler.js';
 
-import vouchersRouter from "./src/routes/vouchersRoute.js"
+import vouchersRouter from "./src/routes/vouchersRoute.js";
+import usersRouter from "./src/routes/usersRoute.js";
 
 const app = express();
 
@@ -34,8 +35,8 @@ app.get('/', (req, res) => {
 // app.use('/auth', authRouter);
 app.use('/vouchers', vouchersRouter);
 // app.use('/borrows', borrowsRouter);
-// app.use('/users', usersRouter);
+app.use('/users', usersRouter);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.info(`Server running on `));
+app.listen(PORT, () => console.info(`Server running on ${PORT}`));
