@@ -17,7 +17,7 @@ export const findAll = async (req, res, next) => {
 
 export const findById = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = new mongoose.Types.ObjectId(req.params.id);
     const voucher = await Voucher.findById({ _id: id }).exec();
     if (!voucher) throw httpNotFound();
     res.json(successResponseBuilder({ voucher: voucher }));
@@ -41,7 +41,7 @@ export const create = async (req, res, next) => {
 
 export const updateById = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = new mongoose.Types.ObjectId(req.params.id);
     const voucher = await Voucher.findOneAndUpdate({ _id: id }, req.body);
     if (!voucher) throw httpNotFound();
 
@@ -53,12 +53,24 @@ export const updateById = async (req, res, next) => {
 
 export const deleteById = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = new mongoose.Types.ObjectId(req.params.id);
 
     const voucher = await Voucher.findOneAndDelete({ _id: id });
     if (!voucher) throw httpNotFound();
 
     res.json(successResponseBuilder({ deletedVoucherkId: id }));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const applyVoucher = async (req, res, next) => {
+  try {
+    const { voucherCode } = req.params
+    const voucher = await Voucher.find({voucherCode:[voucherCode]})
+    if (Array.isArray(voucher) && voucher.length === 0) {
+    return res.status(404).json({error: 'voucher not found'})}
+    res.json(successResponseBuilder({ voucher: voucher }));
   } catch (err) {
     next(err);
   }

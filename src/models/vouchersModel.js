@@ -17,6 +17,9 @@ const voucherSchema = new mongoose.Schema(
     value: {
       type: Number,
       required: true,
+    },maxValue: {
+      type: Number,
+      required: true,
     },
     price: {
       type: Number,
@@ -25,6 +28,10 @@ const voucherSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: false,
+    },
+    voucherCode: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

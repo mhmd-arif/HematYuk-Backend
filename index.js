@@ -8,6 +8,7 @@ import errorHandler from './src/middlewares/errorHandler.js';
 
 import vouchersRouter from "./src/routes/vouchersRoute.js";
 import usersRouter from "./src/routes/usersRoute.js";
+import transactionsRouter from "./src/routes/transactionsRoute.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 
 // app.use('/auth', authRouter);
 app.use('/vouchers', vouchersRouter);
+app.use('/transactions', transactionsRouter);
 // app.use('/borrows', borrowsRouter);
 app.use('/users', usersRouter);
 
