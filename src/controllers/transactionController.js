@@ -78,10 +78,16 @@ export const create = async (req, res, next) => {
       companyName: req.body.companyName,
       transactionValue: req.body.transactionValue,
     });
+    transaction.save();
 
-    const transactionResult = await transaction.save();
+    const detailTransaction = {
+      userEmail: req.body.userEmail,
+      voucherCode: req.body.voucherCode,
+      transactionValue: req.body.transactionValue,
+      userPoint : user.point
+    }
 
-    res.status(201).json(successResponseBuilder({ transaction: transactionResult }));
+    res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
   } catch (err) {
     if (['CastError', 'ValidationError'].includes(err?.name)) {
       next(httpBadRequest(err.message));
