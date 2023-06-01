@@ -5,14 +5,14 @@ import User from '../models/usersModel.js';
 
 export const signupAdmin = async (req, res, next) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, username } = req.body;
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email: email.toLowerCase(),
       password: encryptedPassword,
-      name,
+      username,
       role: 'ADMIN',
     });
 
@@ -34,7 +34,7 @@ export const signupAdmin = async (req, res, next) => {
       });
       return;
     }
-    if (['CastError', 'ValidationError'].includes(err?.name)) {
+    if (['CastError', 'ValidationError'].includes(err?.username)) {
       next({
         message: err.message,
         stack: err.stack,
@@ -48,14 +48,14 @@ export const signupAdmin = async (req, res, next) => {
 
 export const signup = async (req, res, next) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, username } = req.body;
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email: email.toLowerCase(),
       password: encryptedPassword,
-      name,
+      username,
     });
 
     const token = generateAccessToken({
@@ -76,7 +76,7 @@ export const signup = async (req, res, next) => {
       });
       return;
     }
-    if (['CastError', 'ValidationError'].includes(err?.name)) {
+    if (['CastError', 'ValidationError'].includes(err?.username)) {
       next({
         message: err.message,
         stack: err.stack,
