@@ -9,6 +9,7 @@ import errorHandler from './src/middlewares/errorHandler.js';
 import vouchersRouter from "./src/routes/vouchersRoute.js";
 import usersRouter from "./src/routes/usersRoute.js";
 import transactionsRouter from "./src/routes/transactionsRoute.js";
+import authRouter from "./src/routes/authRoute.js";
 
 const app = express();
 
@@ -33,7 +34,7 @@ app.get('/', (req, res) => {
   res.send('halo');
 });
 
-// app.use('/auth', authRouter);
+app.use('/auth', authRouter);
 app.use('/vouchers', vouchersRouter);
 app.use('/transactions', transactionsRouter);
 // app.use('/borrows', borrowsRouter);
