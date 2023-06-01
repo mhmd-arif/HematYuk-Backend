@@ -21,10 +21,10 @@ const userSchema = new mongoose.Schema(
       enum: ['USER', 'ADMIN'],
       default: 'USER',
     },
-    contact: {
-      type: String,
-      required: true,
-    },
+    point: {
+      type: Number,
+      required: false,
+    }
   },
   { timestamps: true }
 );

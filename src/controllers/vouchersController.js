@@ -68,8 +68,11 @@ export const applyVoucher = async (req, res, next) => {
   try {
     const { voucherCode } = req.params
     const voucher = await Voucher.find({voucherCode:[voucherCode]})
-    if (Array.isArray(voucher) && voucher.length === 0) {
-    return res.status(404).json({error: 'voucher not found'})}
+    if (Array.isArray(voucher) && voucher.length === 0)
+      throw httpException(404, 'Voucher not found')
+    if (voucher.quantity < 1) {
+      throw httpException(409, 'Out of voucher');
+    }
     res.json(successResponseBuilder({ voucher: voucher }));
   } catch (err) {
     next(err);

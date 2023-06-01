@@ -17,7 +17,12 @@ const voucherSchema = new mongoose.Schema(
     value: {
       type: Number,
       required: true,
-    },maxValue: {
+    },
+    maxValue: {
+      type: Number,
+      required: false,
+    },
+    minTransaction: {
       type: Number,
       required: true,
     },
