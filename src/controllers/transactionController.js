@@ -45,15 +45,15 @@ export const create = async (req, res, next) => {
   try {
     // Verify cuppon availibility
     const voucher = await Voucher.findOne({ voucherCode: req.body.voucherCode });
-    if (Array.isArray(voucher) && voucher.length === 0)
-      throw httpNotFound('Voucher not found')
-    if (voucher.quantity < 1) {
-      throw httpException(409, 'Out of voucher');
-    }
+    if (!voucher) throw httpNotFound('Voucher not found');
+    if (voucher.quantity < 1) throw httpException(409, 'Out of voucher');
 
     // Verify user is valid
     const user = await User.findOne({ email: req.body.userEmail });
     if (!user) throw httpNotFound('User not found');
+
+    const company = await Voucher.findOne({ companyName: req.body.companyName });
+    if (!company) throw httpNotFound('Company not found');
 
     // Add borrwerId and -1 numOfAvailableBooks
     await Voucher.updateOne(
@@ -78,6 +78,7 @@ export const create = async (req, res, next) => {
       companyName: req.body.companyName,
       transactionValue: req.body.transactionValue,
     });
+
     const transactionResult = await transaction.save();
 
     res.status(201).json(successResponseBuilder({ transaction: transactionResult }));
