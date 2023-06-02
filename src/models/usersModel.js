@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
     point: {
       type: Number,
       required: false,
+      default: 0,
     }
   },
   { timestamps: true }
