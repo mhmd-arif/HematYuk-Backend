@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: false,
       default: 0,
+    },
+    phone: {
+      type: String,
+      required: true,
+      default: 0, 
     }
   },
   { timestamps: true }

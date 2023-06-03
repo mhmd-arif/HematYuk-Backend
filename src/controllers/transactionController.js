@@ -49,42 +49,47 @@ export const create = async (req, res, next) => {
     if (voucher.quantity < 1) throw httpException(409, 'Out of voucher');
 
     // Verify user is valid
-    const user = await User.findOne({ email: req.body.userEmail });
+    const user = await User.findOne({ phone: req.body.userPhone });
     if (!user) throw httpNotFound('User not found');
 
     const company = await Voucher.findOne({ companyName: req.body.companyName });
     if (!company) throw httpNotFound('Company not found');
 
     // Add borrwerId and -1 numOfAvailableBooks
+    const resQuantity = voucher.quantity - 1
     await Voucher.updateOne(
       { _id: voucher._id },
       {
-        quantity: voucher.quantity - 1,
+        quantity: resQuantity,
       }
     );
 
     const pointTransaction = Math.round(req.body.transactionValue/1000)
+    const resPoint = user.point + pointTransaction
     await User.updateOne(
       { _id: user._id },
       {
-        point: user.point + pointTransaction,
+        point: resPoint,
       }
     );
 
     // Add borrow
     const transaction = new Transaction({
       voucherCode: req.body.voucherCode,
-      userEmail: req.body.userEmail,
+      userPhone: req.body.userPhone,
       companyName: req.body.companyName,
       transactionValue: req.body.transactionValue,
     });
     transaction.save();
 
     const detailTransaction = {
-      userEmail: req.body.userEmail,
-      voucherCode: req.body.voucherCode,
-      transactionValue: req.body.transactionValue,
-      userPoint : user.point
+      username: user.username,
+      userPhone: user.phone,
+      userPoint : resPoint,
+      voucherCode: voucher.voucherCode,
+      voucherQuantity: resQuantity,
+      transactionValue: transaction.transactionValue,
+      
     }
 
     res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));

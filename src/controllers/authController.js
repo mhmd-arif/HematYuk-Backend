@@ -48,7 +48,7 @@ export const signupAdmin = async (req, res, next) => {
 
 export const signup = async (req, res, next) => {
   try {
-    const { email, password, username } = req.body;
+    const { email, password, username, phone } = req.body;
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -56,6 +56,7 @@ export const signup = async (req, res, next) => {
       email: email.toLowerCase(),
       password: encryptedPassword,
       username,
+      phone
     });
 
     const token = generateAccessToken({
@@ -100,7 +101,11 @@ export const signin = async (req, res, next) => {
       return;
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email : email });
+    console.log(email)
+    console.log(user)
+    // console.log(user.email)
+    // console.log(user.password)
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       next({

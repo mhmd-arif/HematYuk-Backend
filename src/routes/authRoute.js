@@ -7,11 +7,11 @@ const router = express.Router();
 router.post('/signup', controller.signup);
 router.post('/signin', controller.signin);
 // router.post('/signout', auth.authenticate, controller.signout);
+// auth.authenticate,
+//   auth.authorizeAdmin,\
 
 router.post(
   '/signup/admin',
-  auth.authenticate,
-  auth.authorizeAdmin,
   controller.signupAdmin
 );
 
