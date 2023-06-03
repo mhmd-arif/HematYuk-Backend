@@ -4,39 +4,22 @@ import * as auth from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Get all books
+// Get all vouchers
 router.get('/', controller.findAll);
 
-// Get specific book by id
+// Get specific voucher by id
 router.get('/:id', controller.findById);
 
 // apply voucher
 router.get('/apply/:voucherCode', controller.applyVoucher);
 
-// Create new book
-// router.post('/', 
-// auth.authenticate, 
-// auth.authorizeAdmin, 
-// controller.create);
-router.post('/', controller.create);
+// create voucher
+router.post('/', auth.authenticate, auth.authorizeAdmin, controller.deleteById, controller.create);
 
+// update voucher
+router.put('/:id', auth.authenticate, auth.authorizeAdmin, controller.deleteById, controller.updateById);
 
-// Update specific book by id
-// router.put(
-//   '/:id',
-//   auth.authenticate,
-//   auth.authorizeAdmin,
-//   controller.updateById
-// );
-router.put('/:id', controller.updateById);
-
-// Delete specific book by id
-// router.delete(
-//   '/:id',
-//   auth.authenticate,
-//   auth.authorizeAdmin,
-//   controller.deleteById
-// );
-router.delete('/:id',controller.deleteById);
+// delete voucher
+router.delete('/:id', auth.authenticate, auth.authorizeAdmin, controller.deleteById, controller.deleteById);
 
 export default router;
