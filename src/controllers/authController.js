@@ -101,11 +101,7 @@ export const signin = async (req, res, next) => {
       return;
     }
 
-    const user = await User.findOne({ email : email });
-    console.log(email)
-    console.log(user)
-    // console.log(user.email)
-    // console.log(user.password)
+    const user = await User.findOne({email : email.toLowerCase() });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       next({
