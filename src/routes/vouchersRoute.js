@@ -14,12 +14,12 @@ router.get('/:id', controller.findById);
 router.get('/apply/:voucherCode', controller.applyVoucher);
 
 // create voucher
-router.post('/', auth.authenticate, auth.authorizeAdmin, controller.deleteById, controller.create);
+router.post('/', auth.authenticate, auth.authorizeAdmin, controller.create);
 
 // update voucher
-router.put('/:id', auth.authenticate, auth.authorizeAdmin, controller.deleteById, controller.updateById);
+router.put('/:id', auth.authenticate, auth.authorizeAdmin, controller.updateById);
 
 // delete voucher
-router.delete('/:id', auth.authenticate, auth.authorizeAdmin, controller.deleteById, controller.deleteById);
+router.delete('/:id', auth.authenticate, auth.authorizeAdmin, controller.deleteById);
 
 export default router;
