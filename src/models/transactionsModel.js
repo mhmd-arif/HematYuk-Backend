@@ -7,7 +7,7 @@ const transactionSchema = new mongoose.Schema(
       required: true,
     },
     userPhone: {
-      type: Number,
+      type: String,
       required: true,
     },
     voucherCode: {
