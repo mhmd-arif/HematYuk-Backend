@@ -45,54 +45,94 @@ export const create = async (req, res, next) => {
   try {
     // Verify cuppon availibility
     const voucher = await Voucher.findOne({ voucherCode: req.body.voucherCode });
-    if (!voucher) throw httpNotFound('Voucher not found');
-    if (voucher.quantity < 1) throw httpException(409, 'Out of voucher');
+    // if (!voucher) throw httpNotFound('Voucher not found');
+    // if (voucher.quantity < 1) throw httpException(409, 'Out of voucher');
 
     // Verify user is valid
     const user = await User.findOne({ phone: req.body.userPhone });
-    if (!user) throw httpNotFound('User not found');
+    // if (!user) throw httpNotFound('User not found');
 
     const company = await Voucher.findOne({ companyName: req.body.companyName });
-    if (!company) throw httpNotFound('Company not found');
+    // if (!company) throw httpNotFound('Company not found');
 
-    // Add borrwerId and -1 numOfAvailableBooks
-    const resQuantity = voucher.quantity - 1
-    await Voucher.updateOne(
-      { _id: voucher._id },
-      {
-        quantity: resQuantity,
+    if (!user){
+        const detailTransaction = {
+        voucherCode: !voucher ? "invalid voucher code" : req.body.voucherCode,
+        userPhone: !user ? "not yet registered HematYuk user": req.body.userPhone,
+        transactionValue: req.body.transactionValue, 
       }
-    );
-
-    const pointTransaction = Math.round(req.body.transactionValue/1000)
-    const resPoint = user.point + pointTransaction
-    await User.updateOne(
-      { _id: user._id },
-      {
-        point: resPoint,
-      }
-    );
-
-    // Add borrow
-    const transaction = new Transaction({
-      voucherCode: req.body.voucherCode,
-      userPhone: req.body.userPhone,
-      companyName: req.body.companyName,
-      transactionValue: req.body.transactionValue,
-    });
-    transaction.save();
-
-    const detailTransaction = {
-      username: user.username,
-      userPhone: user.phone,
-      userPoint : resPoint,
-      voucherCode: voucher.voucherCode,
-      voucherQuantity: resQuantity,
-      transactionValue: transaction.transactionValue,
-      
+      res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
     }
 
-    res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
+    else if (!voucher){
+      const pointTransaction = Math.round(req.body.transactionValue/1000)
+      const resPoint = user.point + pointTransaction
+      await User.updateOne(
+        { _id: user._id },
+        {
+          point: resPoint,
+        }
+      );
+
+      // Add borrow
+      const transaction = new Transaction({
+        userPhone: req.body.userPhone,
+        companyName: req.body.companyName,
+        transactionValue: req.body.transactionValue,
+      });
+      transaction.save();
+
+      const detailTransaction = {
+        username: user.username,
+        userPhone: user.phone,
+        userPoint : resPoint,
+        transactionValue: transaction.transactionValue, 
+      }
+
+      res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
+    }
+
+    else{
+      if (voucher.quantity < 1) throw httpException(409, 'Out of voucher');
+      const resQuantity = voucher.quantity - 1
+      await Voucher.updateOne(
+        { _id: voucher._id },
+        {
+          quantity: resQuantity,
+        }
+      );
+
+      const pointTransaction = Math.round(req.body.transactionValue/1000)
+      const resPoint = user.point + pointTransaction
+      await User.updateOne(
+        { _id: user._id },
+        {
+          point: resPoint,
+        }
+      );
+
+      // Add borrow
+      const transaction = new Transaction({
+        voucherCode: req.body.voucherCode,
+        userPhone: req.body.userPhone,
+        companyName: req.body.companyName,
+        transactionValue: req.body.transactionValue,
+      });
+      transaction.save();
+
+      const detailTransaction = {
+        username: user.username,
+        userPhone: user.phone,
+        userPoint : resPoint,
+        voucherCode: voucher.voucherCode,
+        voucherQuantity: resQuantity,
+        transactionValue: transaction.transactionValue, 
+      }
+
+      res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
+    }
+
+    
   } catch (err) {
     if (['CastError', 'ValidationError'].includes(err?.name)) {
       next(httpBadRequest(err.message));
