@@ -37,7 +37,6 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/vouchers', vouchersRouter);
 app.use('/transactions', transactionsRouter);
-// app.use('/borrows', borrowsRouter);
 app.use('/users', usersRouter);
 
 app.use(errorHandler);

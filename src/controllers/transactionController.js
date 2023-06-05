@@ -56,7 +56,16 @@ export const create = async (req, res, next) => {
     // if (!company) throw httpNotFound('Company not found');
 
     if (!user){
+        const transaction = new Transaction({
+          companyName: req.body.companyName,
+          voucherCode: !voucher ? "invalid voucher code" : req.body.voucherCode,
+          userPhone: !user ? "not yet registered HematYuk user": req.body.userPhone,
+          transactionValue: req.body.transactionValue, 
+        });
+        transaction.save();
+
         const detailTransaction = {
+        companyName: req.body.companyName,
         voucherCode: !voucher ? "invalid voucher code" : req.body.voucherCode,
         userPhone: !user ? "not yet registered HematYuk user": req.body.userPhone,
         transactionValue: req.body.transactionValue, 
@@ -76,6 +85,7 @@ export const create = async (req, res, next) => {
 
       // Add borrow
       const transaction = new Transaction({
+        voucherCode: "do not use valid voucher code",
         userPhone: req.body.userPhone,
         companyName: req.body.companyName,
         transactionValue: req.body.transactionValue,

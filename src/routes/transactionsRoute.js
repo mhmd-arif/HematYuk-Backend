@@ -4,25 +4,13 @@ import * as auth from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Get all books
+// Get all transaction
 router.get('/', controller.findAll);
 
-// Get specific book by id
+// Get specific transaction by id
 router.get('/:id', controller.findById);
 
-// Create new book
-// router.post('/', 
-// auth.authenticate, 
-// auth.authorizeAdmin, 
-// controller.create);
+// create transaction
 router.post('/', controller.create);
-
-// Update specific book by id
-// router.put(
-//   '/:id',
-//   auth.authenticate,
-//   auth.authorizeAdmin,
-//   controller.updateById
-// );
 
 export default router;
