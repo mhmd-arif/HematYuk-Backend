@@ -65,9 +65,10 @@ export const create = async (req, res, next) => {
         transaction.save();
 
         const detailTransaction = {
-        companyName: req.body.companyName,
+        username: "not yet registered HematYuk user",
+        userPhone: req.body.userPhone,
+        userPoint : resPoint,
         voucherCode: !voucher ? "invalid voucher code" : req.body.voucherCode,
-        userPhone: !user ? "not yet registered HematYuk user": req.body.userPhone,
         transactionValue: req.body.transactionValue, 
       }
       res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
@@ -97,6 +98,12 @@ export const create = async (req, res, next) => {
         userPhone: user.phone,
         userPoint : resPoint,
         transactionValue: transaction.transactionValue, 
+
+        username: user.username,
+        userPhone: req.body.userPhone,
+        userPoint : resPoint,
+        voucherCode: "do not use valid voucher code",
+        transactionValue: req.body.transactionValue, 
       }
 
       res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
@@ -132,11 +139,11 @@ export const create = async (req, res, next) => {
 
       const detailTransaction = {
         username: user.username,
-        userPhone: user.phone,
+        userPhone: req.body.userPhone,
         userPoint : resPoint,
-        voucherCode: voucher.voucherCode,
+        voucherCode: req.body.voucherCode,
         voucherQuantity: resQuantity,
-        transactionValue: transaction.transactionValue, 
+        transactionValue: req.body.transactionValue, 
       }
 
       res.status(201).json(successResponseBuilder({ transaction: detailTransaction }));
