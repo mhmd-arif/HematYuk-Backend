@@ -67,7 +67,6 @@ export const create = async (req, res, next) => {
         const detailTransaction = {
         username: "not yet registered HematYuk user",
         userPhone: req.body.userPhone,
-        userPoint : resPoint,
         voucherCode: !voucher ? "invalid voucher code" : req.body.voucherCode,
         transactionValue: req.body.transactionValue, 
       }
@@ -94,11 +93,6 @@ export const create = async (req, res, next) => {
       transaction.save();
 
       const detailTransaction = {
-        username: user.username,
-        userPhone: user.phone,
-        userPoint : resPoint,
-        transactionValue: transaction.transactionValue, 
-
         username: user.username,
         userPhone: req.body.userPhone,
         userPoint : resPoint,
