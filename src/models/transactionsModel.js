@@ -4,11 +4,11 @@ const transactionSchema = new mongoose.Schema(
   {
     companyName: {
       type: String,
-      required: true,
+      required: false,
     },
     userPhone: {
       type: String,
-      required: true,
+      required: false,
     },
     voucherCode: {
       type: String,
@@ -16,7 +16,7 @@ const transactionSchema = new mongoose.Schema(
     },
     transactionValue: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }
